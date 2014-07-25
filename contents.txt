@@ -1,4 +1,36 @@
 
+Learning Plan
+---------------
+
+Gulp for the build and workflow process
+LESS and CSS together 
+Bootstrap as default knowledge
+JavaScript with jQuery as default DOM manipulator
+JSHint from day one of JavaScript
+CoffeeScript with JavaScript together
+
+- gulp is better than grunt
+- jshint is better than jslint
+- coffee is better than javascript
+- less is better than css
+
+Browserify awesome article
+http://viget.com/extend/gulp-browserify-starter-faq
+http://esa-matti.suuronen.org/blog/2013/03/22/journey-from-requirejs-to-browserify/
+http://blakeembrey.com/articles/introduction-to-browserify/
+
+Tooling presentation
+https://speakerdeck.com/bevacqua/front-end-ops-tooling
+
+Gulp presentation
+https://speakerdeck.com/jayharris/dethroning-grunt-simple-and-effective-builds-with-gulp-dot-js
+
+LESS presentation
+https://speakerdeck.com/bermonpainter/css-pre-processors-stylus-less-and-sass
+
+Introduction to CoffeeScript
+https://speakerdeck.com/zdennis/intro-to-coffeescript
+
 Bootstrap 3
 http://www.helloerik.com/the-subtle-magic-behind-why-the-bootstrap-3-grid-works
 
@@ -55,3 +87,120 @@ Trick of running maven with jasmine
 http://ivandemarino.me/2011/07/09/Maven-PhantomJS-and-Jasmine-to-write-your-JS-Unit-Testing/
 
 Test Change
+
+components
+  coffee
+    script.coffee
+  less
+    main.less
+  lib
+  scripts
+    common.js
+    page1.js
+css
+js
+index.html
+package.json
+gulpfile.js
+
+index.html
+
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <title>Workflow</title>
+  <link rel="stylesheet" href="css/style.css" >
+</head>
+<body>
+<h1>Change Next</h1>
+<p>Lorem ipsum</p>
+<script src="js/script.js"></script>
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+</body>
+</html>
+
+Steps
+- npm init
+- npm install --save-dev gulp
+- npm install --save-dev gulp-util
+- npm install --save-dev gulp-less
+- npm install --save-dev path
+- npm install --save-dev gulp-coffee
+- npm install --save-dev gulp-concat
+- npm install --save-dev gulp-uglify
+- npm install --save-dev gulp-livereload
+- npm install --save-dev tiny-lr
+
+gulpfile.js
+
+var gulp = require('gulp'),
+	gutil = require('gulp-util'),
+	uglify = require('gulp-uglify'),
+	less = require('gulp-less'),
+	coffee = require('gulp-coffee'),
+	concat = require('gulp-concat'),
+	path = require('path'),
+	livereload = require('gulp-livereload'),
+	lr = require('tiny-lr'),
+	server = lr();
+
+var coffeeSources = [
+	'components/coffee/*.coffee'
+];
+	
+var jsSources = [
+	'components/lib/jquery.js',
+	'components/scripts/*.js'
+];
+
+var lessSources = [
+	'components/less/*.less'
+];
+
+gulp.task('coffee', function() {
+	gulp.src(coffeeSources)
+		.pipe(coffee({ bare: true})
+			.on( 'error', gutil.log))
+		.pipe(gulp.dest('components/scripts'));
+});
+
+gulp.task('js', function() {
+	gulp.src(jsSources)
+		.pipe(uglify())
+		.pipe(concat('script.js'))
+		.pipe(gulp.dest('js'))
+});
+
+gulp.task('less', function () {
+	gulp.src(lessSources)
+		.pipe(less({
+			paths: [ path.join(__dirname, 'components/less')]
+		}))
+		.pipe(concat('style.css'))
+		.pipe(gulp.dest('css'))
+		.pipe(livereload());
+});
+
+gulp.task('watch', function() {
+	var server = livereload();
+	gulp.watch(jsSources, ['js']);
+	gulp.watch(coffeeSources, ['coffee']);
+	gulp.watch(lessSources, ['less']);
+	gulp.watch(['js/script.js', '*.html'], function(e) {
+		server.changed(e.path);
+	});
+});
+
+gulp.task('default', ['less', 'js', 'coffee', 'watch']);
+
+
+
+script.coffee
+
+process = ->
+	"Hello There. Same here"
+	
+$ ->
+	$('h1').append('Hello There')
