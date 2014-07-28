@@ -1,0 +1,43 @@
+{
+  "name": "Task04",
+  "version": "0.0.0",
+  "description": "First NPM init",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vijayrpande/frontendninja"
+  },
+  "author": "Vijay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vijayrpande/frontendninja/issues"
+  },
+  "homepage": "https://github.com/vijayrpande/frontendninja",
+  "devDependencies": {
+    "gulp": "^3.8.6",
+    "gulp-jasmine": "^0.2.0",
+    "gulp-util": "^3.0.0",
+    "gulp-less": "^1.3.2",
+    "path": "^0.4.9",
+    "gulp-coffee": "^2.1.1",
+    "gulp-concat": "^2.3.4",
+    "gulp-uglify": "^0.3.1",
+    "gulp-livereload": "^2.1.0",
+    "tiny-lr": "0.0.9"
+  },
+  "dependencies": {
+    "path": "~0.4.9",
+    "gulp-concat": "~2.3.4",
+    "gulp-jasmine": "~0.2.0",
+    "gulp": "~3.8.6",
+    "gulp-coffee": "~2.1.1",
+    "tiny-lr": "~0.0.9",
+    "gulp-livereload": "~2.1.0",
+    "gulp-uglify": "~0.3.1",
+    "gulp-util": "~3.0.0",
+    "gulp-less": "~1.3.2"
+  }
+}
